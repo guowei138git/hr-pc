@@ -44,11 +44,22 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button class="loginBtn"
+      :loading="loading" 
+      type="primary" 
+      style="width:100%;margin-bottom:30px;" 
+      @click.native.prevent="handleLogin">
+      登录</el-button>
 
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span>
+      </div> -->
+
+      <!-- 修改显示的提示文本和登录文本 -->
+      <div class="tips">
+        <span style="margin-right:20px;">账号: 13800000002</span>
+        <span> 密码: 123456</span>
       </div>
 
     </el-form>
@@ -133,7 +144,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:#fff;
+// $light_gray:#fff;
+$light_gray:#68b0fe; // 输入框颜色改成蓝色
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -144,6 +156,11 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  // 设置背景图片
+  background-image: url('~@/assets/common/login.jpg');
+  // 将图片位置设置为充满整个屏幕
+  background-position: center;
+
   .el-input {
     display: inline-block;
     height: 47px;
@@ -168,9 +185,22 @@ $cursor: #fff;
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    // background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.7); // 输入登录表单的背景色
     border-radius: 5px;
     color: #454545;
+  }
+
+  // 设置错误信息的颜色
+  .el-form-item__error {
+    color: #fff;
+  }
+  // 设置登录按钮的样式
+  .loginBtn {
+    background: #407ffe;
+    height: 64px;
+    line-height: 32px;
+    font-size: 24px;
   }
 }
 </style>
