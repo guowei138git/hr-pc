@@ -111,7 +111,10 @@ export default {
             validator: validateMobile, trigger: 'blur'
           }
         ],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        // 密码校验
+        password: [{ required: true, trigger: 'blur', message:'密码不能为空' }, {
+          trigger: 'blur', min: 6, max: 16, message: '密码长度为6-16位之间'
+        }]
       },
       loading: false,
       passwordType: 'password',
