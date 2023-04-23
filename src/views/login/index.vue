@@ -108,7 +108,7 @@ export default {
         // validator 自定义函数 - validateUsername
         mobile: [{ required: true, trigger: 'blur', message:'手机号不能为空' },
           {
-            validator: validateMobile
+            validator: validateMobile, trigger: 'blur'
           }
         ],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
