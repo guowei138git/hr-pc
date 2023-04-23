@@ -18,10 +18,10 @@
           <svg-icon icon-class="user" />
         </span>
         <!-- 给el-input加v-modle绑定属性
-        loginForm.username(双向绑定) -->
+        loginForm.mobile(双向绑定) -->
         <el-input
           ref="username"
-          v-model="loginForm.username"
+          v-model="loginForm.mobile"
           placeholder="Username"
           name="username"
           type="text"
@@ -97,7 +97,7 @@ export default {
     return {
       // 绑定 model属性
       loginForm: {
-        username: 'admin',
+        mobile: 'admin',
         password: '111111'
       },
       // 绑定 rules规则
@@ -105,7 +105,7 @@ export default {
         // trigger 校验的触发方式
         // blur 失去焦点触发
         // validator 自定义函数 - validateUsername
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
