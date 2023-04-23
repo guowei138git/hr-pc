@@ -17,6 +17,8 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
+        <!-- 给el-input加v-modle绑定属性
+        loginForm.username(双向绑定) -->
         <el-input
           ref="username"
           v-model="loginForm.username"
@@ -32,6 +34,8 @@
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
+        <!-- 给el-input加v-modle绑定属性
+        loginForm.password(双向绑定) -->
         <el-input
           :key="passwordType"
           ref="password"
