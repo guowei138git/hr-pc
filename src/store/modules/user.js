@@ -33,19 +33,12 @@ const mutations = {
 }
 // 执行异步
 const actions = {
-  // 定义 login action 
-  async loginAction(context, data){
-    // 实际上返回的就是一个 promise对象
-    // result就是执行的结果
+  // 定义 login action 方法
+  async action(context, data){
+    // 调用api接口 拿到 - token
     const result = await login(data)
-    // axios默认给数据 加了一层 data
-    if(result.data.success){
-      // 表示登录接口调用成功 也就意味着你的用户名和密码是正确的
-      // 获取用户的token
-      const token = result .data.data
-      // 由于actions 修改state 必须通过mutations
-      context.commit('setToken', token)
-    }
+    // 设置token
+    context.commit('setToken', result)
   }
 }
 
