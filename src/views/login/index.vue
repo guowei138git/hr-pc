@@ -47,6 +47,10 @@
           auto-complete="on"
           @keyup.enter.native="handleLogin"
         />
+        <!-- .enter属于按键修饰符
+             .native表示监听组件的原生事件
+             比如：keyup就是input的原生事件
+             这里写native表示keyup是一个原生事件，而非组件的事件 -->
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
@@ -88,13 +92,13 @@ export default {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePassword = (rule, value, callback) => {
+    //   if (value.length < 6) {
+    //     callback(new Error('The password can not be less than 6 digits'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       // 绑定 model属性
       loginForm: {
