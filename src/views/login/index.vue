@@ -1,6 +1,10 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <!-- 绑定model属性 :model="loginForm" 
+        绑定rules规则  :rules="loginRules" -->
+    <el-form ref="loginForm" 
+    :model="loginForm" 
+    :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <!-- 放置标题图片 -->
       <div class="title-container">
@@ -87,11 +91,16 @@ export default {
       }
     }
     return {
+      // 绑定 model属性
       loginForm: {
         username: 'admin',
         password: '111111'
       },
+      // 绑定 rules规则
       loginRules: {
+        // trigger 校验的触发方式
+        // blur 失去焦点触发
+        // validator 自定义函数 - validateUsername
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
