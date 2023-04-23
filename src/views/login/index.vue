@@ -156,6 +156,8 @@ export default {
         // 判断接口调用是否 成功
         if (isOK) {
           try {
+            // 开启 loading 
+            this.loading = true
             // 只有校验通过了  我们才去调用 action
             await this['user/login'](this.loginForm)
             console.log('user/login -> success')
@@ -163,6 +165,9 @@ export default {
             this.$router.push('/')
           } catch (error) {
             console.log('接口调用失败:', error)
+          } finally {
+            // 无论执行 try 还是 catch 都去关闭 loading 
+            this.loading = false
           }
         }
       })
