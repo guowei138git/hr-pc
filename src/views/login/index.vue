@@ -80,6 +80,8 @@
 
 <script>
 import { validateMobileFn } from '@/utils/validate'
+// 引入vuex的辅助函数
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -134,6 +136,8 @@ export default {
     }
   },
   methods: {
+    // 引入方法 - login
+    ...mapActions(['user/login']),
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -145,6 +149,8 @@ export default {
       })
     },
     handleLogin() {
+      // ref 可以获取到一个元素的dom对象
+      // ref 作用到组件上的时候 可以获取到该组件的实例  this
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
