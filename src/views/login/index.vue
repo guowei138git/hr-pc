@@ -12,8 +12,8 @@
           <img src="@/assets/common/login-logo.png" alt="">
         </h3>
       </div>
-      <!-- 给(el-form-item)设置 prop属性-username -->
-      <el-form-item prop="username">
+      <!-- 给(el-form-item)设置 prop属性-mobile -->
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -22,7 +22,7 @@
         <el-input
           ref="username"
           v-model="loginForm.mobile"
-          placeholder="Username"
+          placeholder="请输入手机号"
           name="username"
           type="text"
           tabindex="1"
@@ -41,7 +41,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="请输入密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -97,8 +97,8 @@ export default {
     return {
       // 绑定 model属性
       loginForm: {
-        mobile: 'admin',
-        password: '111111'
+        mobile: '13800000002',
+        password: '123456'
       },
       // 绑定 rules规则
       loginRules: {
