@@ -34,7 +34,7 @@ const mutations = {
 // 执行异步
 const actions = {
   // 定义 login action 
-  async login(context, data){
+  async loginAction(context, data){
     // 实际上返回的就是一个 promise对象
     // result就是执行的结果
     const result = await login(data)
