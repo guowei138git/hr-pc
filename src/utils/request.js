@@ -5,7 +5,9 @@ import axios from 'axios' // 引入 axios
 const service = axios.create({
     // 当执行 npm run dev => .env.development => /api
     // 当执行 npm run build => .env.production => /prod-api
-    baseURL: process.env.VUE_APP_BASE_API
+    baseURL: process.env.VUE_APP_BASE_API,
+    // 设置超时时间 5s
+    timeout:5000
 }) 
 
 service.interceptors.request.use() // 请求拦截器
