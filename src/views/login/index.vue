@@ -12,7 +12,7 @@
           <img src="@/assets/common/login-logo.png" alt="">
         </h3>
       </div>
-
+      <!-- 给(el-form-item)设置 prop属性-username -->
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -27,7 +27,7 @@
           auto-complete="on"
         />
       </el-form-item>
-
+      <!-- 给(el-form-item)设置 prop属性-password -->
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
