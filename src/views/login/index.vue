@@ -75,14 +75,15 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validateMobileFn } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+    const validateMobile = (rule, value, callback) => {
+      if (!validateMobileFn(value)) {
+        const errMsg = '手机号格式不正确'
+        callback(new Error(errMsg))
       } else {
         callback()
       }
@@ -105,7 +106,11 @@ export default {
         // trigger 校验的触发方式
         // blur 失去焦点触发
         // validator 自定义函数 - validateUsername
-        mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        mobile: [{ required: true, trigger: 'blur', message:'手机号不能为空' },
+          {
+            validator: validateMobile
+          }
+        ],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
