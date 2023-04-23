@@ -151,18 +151,19 @@ export default {
     handleLogin() {
       // ref 可以获取到一个元素的dom对象
       // ref 作用到组件上的时候 可以获取到该组件的实例  this
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+      // 表单的手动校验 - validate
+      this.$refs.loginForm.validate( async isOK => {
+        // 判断接口调用是否 成功
+        if (isOK) {
+          try {
+            // 只有校验通过了  我们才去调用 action
+            await this['user/login'](this.loginForm)
+            console.log('user/login -> success')
+            // 跳转到 - 首页
+            this.$router.push('/')
+          } catch (error) {
+            console.log('接口调用失败:', error)
+          }
         }
       })
     }

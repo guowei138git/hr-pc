@@ -14,7 +14,7 @@ const service = axios.create({
 service.interceptors.request.use() // 请求拦截器
 
 // 响应拦截器
-service.interceptors.response().use(response => {
+service.interceptors.response.use(response => {
     // 成功 -> 解构数据
     const {success, message, data} = response.data
     // 判断 success 

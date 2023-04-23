@@ -34,7 +34,7 @@ const mutations = {
 // 执行异步
 const actions = {
   // 定义 login action 方法
-  async action(context, data){
+  async login(context, data){
     // 调用api接口 拿到 - token
     const result = await login(data)
     // 设置token
