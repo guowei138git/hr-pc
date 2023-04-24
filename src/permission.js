@@ -2,7 +2,8 @@
 
 import router from '@/router'
 import store from '@/store'
-
+import nprogress from 'nprogress' // 引入进度条
+import 'nprogress/nprogress.css' // 引入进度条样式
 
 // 定义白名单
 const whiteList = ['/login', '/404']
@@ -16,6 +17,8 @@ const whiteList = ['/login', '/404']
 // next(false)  -> 跳转终止
 // next(地址)   -> 跳转到某个地址
 router.beforeEach((to, from, next) => {
+    // 开启进度条
+    nprogress.start() 
     if (store.getters.token) {
         // 有 token
         if (to.path === '/login') {
@@ -39,3 +42,7 @@ router.beforeEach((to, from, next) => {
 
 
 // 后置守卫
+router.afterEach(() => {
+    // 关闭进度条
+    nprogress.done()
+})
