@@ -15,6 +15,17 @@ export function login(data) {
   })
 }
 
+/**
+ * 获取用户信息接口封装
+ * @param {*} token 
+ */
+export function getUserInfo(){
+  return request({
+    url: '/sys/profile',
+    method: 'post'
+  })
+}
+
 export function getInfo(token) {
   
 }
