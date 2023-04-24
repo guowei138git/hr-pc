@@ -18,6 +18,7 @@ export function login(data) {
 /**
  * 获取用户信息接口封装
  * @param {*} token 
+ * @returns data
  */
 export function getUserInfo(){
   return request({
