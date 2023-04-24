@@ -38,6 +38,8 @@ router.beforeEach((to, from, next) => {
             next('/login')  // 跳转登录页
         }
     }
+    // 手动强制关闭一次  为了解决 手动切换地址时  进度条的不关闭的问题
+    NProgress.done() 
 })
 
 
