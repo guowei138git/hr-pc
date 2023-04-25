@@ -65,9 +65,13 @@ export default {
     toggleSideBar() {
       this.$store.dispatch("app/toggleSideBar");
     },
+    // 退出登录
     async logout() {
+      // 调用vuex中的logout
       await this.$store.dispatch("user/logout");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      // 跳转到登录
+      this.$router.push(`/login`)
+      // this.$router.push(`/login?redirect=${this.$route.fullPath}`);
     }
   }
 };

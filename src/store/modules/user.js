@@ -66,6 +66,13 @@ const actions = {
     context.commit('setUserInfo', {...result, ...baseInfo}) // 提交到mutations
     return result // 这里为什么要 return呢？
     // 这里给我们后期做权限的时候  留下伏笔
+  },
+  // 登出的action
+  logout(context){
+    // 删除token
+    context.commit('removeToken')
+    // 删除用户资料
+    context.commit('removeUserInfo')
   }
 }
 
