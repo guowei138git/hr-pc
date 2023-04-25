@@ -14,10 +14,12 @@ const service = axios.create({
 
 // 请求拦截器
 service.interceptors.request.use(config => {
+    console.log('统一注入token')
     // 统一注入token
     if (store.getters.token) {
+        console.log('存在token')
         // 如果token存在 注入 token
-        config.headers['Authorization'] = `Bear ${store.getters.token}`
+        config.headers['Authorization'] = `Bearer ${store.getters.token}`
     }
     // 必须返回配置
     return config

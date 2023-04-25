@@ -27,9 +27,6 @@ export function getUserInfo(){
   })
 }
 
-export function getInfo(token) {
-  
-}
 
 export function logout() {
   

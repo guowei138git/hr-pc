@@ -16,15 +16,18 @@ const whiteList = ['/login', '/404']
 // next()   -> 放过
 // next(false)  -> 跳转终止
 // next(地址)   -> 跳转到某个地址
-router.beforeEach( async (to, from, next) => {
+router.beforeEach( async(to, from, next) => {
     // 开启进度条
     nprogress.start() 
     if (store.getters.token) {
+        console.log('store.getters.token=', store.getters.token)
         // 有 token
         if (to.path === '/login') {
             // 是否登录页
+            console.log('跳转到主页')
             next('/') // 是 - 跳转到主页
         } else {
+            console.log('不是登录页')
             // 不是登录页
             // 在执行放过 - 通行 前 获取用户资料
             // 是每次都获取吗？
@@ -32,6 +35,7 @@ router.beforeEach( async (to, from, next) => {
             // 如果当前vuex中没有用户资料 -> 则要获取
             if (!store.getters.userId){
                 // 如果没有userId这个值 才会去调用获取用户资料的action
+                console.log('user/getUserInfoAction--->')
                 await store.dispatch('user/getUserInfoAction')
                 // 为什么要写 await 呢？
                 // 因为我们想获取完资料后再去放行

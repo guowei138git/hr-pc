@@ -10,7 +10,7 @@ const state = {
   // 设置token初始状态 token持久化 => 放到缓存中(浏览器)
   token:getToken(),
   // 这里定义了一个空对象 
-  userInfo: {}  // 那为什么要定义空对象呢？
+  userInfo:{} // 那为什么要定义空对象呢？
 }
 // 修改状态
 const mutations = {
@@ -33,10 +33,12 @@ const mutations = {
   },
   // 设置用户信息
   setUserInfo(state, result){
+    console.log('result=', result)
     // 更新一个对象
     state.userInfo = result // 这里是响应式
-    
+    // console.log('setUserInfo - result')
     //state.userInfo = {...result} // 这样也是响应式 属于浅拷贝
+    console.log('state.userInfo=', state.userInfo)
     //state.userInfo['username'] = result // 这样才不是响应式
   },
   // 删除用户信息
@@ -54,11 +56,13 @@ const actions = {
     // 设置token
     context.commit('setToken', result)
   },
-  // 封装获取用户信息的 action 方法
+  // 获取用户资料action
   async getUserInfoAction(context){
     // 调用api接口 
-    const result = await getUserInfo()
-    context.commit('setUserInfo', result) // 提交到mutations
+    // console.log('getUserInfoAction req')
+    const result = await getUserInfo() // 获取返回值
+    // console.log('getUserInfoAction res:', result)
+    context.commit('setUserInfo', {...result}) // 提交到mutations
     return result // 这里为什么要 return呢？
     // 这里给我们后期做权限的时候  留下伏笔
   }
