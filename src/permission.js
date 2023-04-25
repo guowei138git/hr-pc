@@ -16,7 +16,7 @@ const whiteList = ['/login', '/404']
 // next()   -> 放过
 // next(false)  -> 跳转终止
 // next(地址)   -> 跳转到某个地址
-router.beforeEach((to, from, next) => {
+router.beforeEach( async (to, from, next) => {
     // 开启进度条
     nprogress.start() 
     if (store.getters.token) {
@@ -26,6 +26,14 @@ router.beforeEach((to, from, next) => {
             next('/') // 是 - 跳转到主页
         } else {
             // 不是登录页
+            // 在执行放过 - 通行 前 获取用户资料
+            // 是每次都获取吗？
+            // 不是，是：--->
+            // 如果当前vuex中没有用户资料 -> 则要获取
+            if (!store.state.user.userInfo.userId){
+                await store.dispatch('user/getUserInfoAction')
+            }
+            // 如果当前vuex中有用户资料 -> 则不获取 -> 通行
             next() // 放过 - 通行
         }
     } else {
