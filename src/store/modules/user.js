@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 
 
 // 状态
@@ -62,7 +62,8 @@ const actions = {
     // console.log('getUserInfoAction req')
     const result = await getUserInfo() // 获取返回值
     // console.log('getUserInfoAction res:', result)
-    context.commit('setUserInfo', {...result}) // 提交到mutations
+    const baseInfo = await getUserDetailById(result.userId)
+    context.commit('setUserInfo', {...result, ...baseInfo}) // 提交到mutations
     return result // 这里为什么要 return呢？
     // 这里给我们后期做权限的时候  留下伏笔
   }
