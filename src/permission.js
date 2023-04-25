@@ -30,8 +30,11 @@ router.beforeEach( async (to, from, next) => {
             // 是每次都获取吗？
             // 不是，是：--->
             // 如果当前vuex中没有用户资料 -> 则要获取
-            if (!store.state.user.userInfo.userId){
+            if (!store.getters.userId){
+                // 如果没有userId这个值 才会去调用获取用户资料的action
                 await store.dispatch('user/getUserInfoAction')
+                // 为什么要写 await 呢？
+                // 因为我们想获取完资料后再去放行
             }
             // 如果当前vuex中有用户资料 -> 则不获取 -> 通行
             next() // 放过 - 通行
