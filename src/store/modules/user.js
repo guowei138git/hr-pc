@@ -38,6 +38,10 @@ const mutations = {
     
     //state.userInfo = {...result} // 这样也是响应式 属于浅拷贝
     //state.userInfo['username'] = result // 这样才不是响应式
+  },
+  // 删除用户信息
+  removeUserInfo(state){
+    state.userInfo = {}
   }
   
 }
