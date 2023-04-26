@@ -6,6 +6,9 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+// 引入多个模块的规则
+import employeesRouter from './modules/employees'
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -59,10 +62,17 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+// 动态路由
+export const asyncRouters = [
+  employeesRouter
+]
+
+
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  scrollBehavior: () => ({ y: 0 }), // 管理滚动行为 如果出现滚动 切换 就让页面回到顶部
+  // 合并路由
+  routes: [...constantRoutes, ...asyncRouters] // 临时合并
 })
 
 const router = createRouter()
