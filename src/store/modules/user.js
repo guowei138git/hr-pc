@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
 
 
@@ -53,8 +53,10 @@ const actions = {
   async login(context, data){
     // 调用api接口 拿到 - token
     const result = await login(data)
-    // 设置token
+    // 设置token -> action修改state 必须通过mutations
     context.commit('setToken', result)
+    // 写入时间戳
+    setTimeStamp() // 将当前的最新时间写入缓存
   },
   // 获取用户资料action
   async getUserInfoAction(context){
