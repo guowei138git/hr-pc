@@ -4,7 +4,7 @@
       <!-- 组织架构内容 - 头部 -->
       <el-card class="tree-card">
         <!-- 放置结构内容 -->
-        <el-row type="flex" justify="space-between">
+        <el-row type="flex" justify="space-between" align="middle" style="height: 40px">
           <el-col>
             <!-- 左侧内容 -->
             <span>江苏传智播客教育科技股份有限公司</span>
@@ -33,13 +33,62 @@
             </el-row>
           </el-col>
         </el-row>
+        <!-- 放置一个el-tree -->
+        <el-tree :data="list" :props="defaultProps"
+        :default-expand-all="true"></el-tree>
+
+
       </el-card>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data () {
+    return {
+      list: [{
+          label: '一级 1',
+          children: [{
+            label: '二级 1-1',
+            children: [{
+              label: '三级 1-1-1'
+            }]
+          }]
+        }, {
+          label: '一级 2',
+          children: [{
+            label: '二级 2-1',
+            children: [{
+              label: '三级 2-1-1'
+            }]
+          }, {
+            label: '二级 2-2',
+            children: [{
+              label: '三级 2-2-1'
+            }]
+          }]
+        }, {
+          label: '一级 3',
+          children: [{
+            label: '二级 3-1',
+            children: [{
+              label: '三级 3-1-1'
+            }]
+          }, {
+            label: '二级 3-2',
+            children: [{
+              label: '三级 3-2-1'
+            }]
+          }]
+        }],
+      defaultProps:{
+        label: 'label', // 表示 从这个树形显示内容
+        children: 'children' // 表示 从这个树形去找子节点
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>
