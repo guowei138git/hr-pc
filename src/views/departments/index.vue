@@ -34,10 +34,7 @@
           </el-col>
         </el-row>
         <!-- 放置一个el-tree -->
-        <el-tree :data="list" :props="defaultProps"
-        :default-expand-all="true"></el-tree>
-
-
+        <el-tree :data="departs" :props="defaultProps" :default-expand-all="true"></el-tree>
       </el-card>
     </div>
   </div>
@@ -45,55 +42,33 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      list: [{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
-          }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
-        }],
-      defaultProps:{
-        label: 'label', // 表示 从这个树形显示内容
-        children: 'children' // 表示 从这个树形去找子节点
-      }
-    }
+      departs: [
+        {
+          name: "总裁办",
+          children: [{ name: "董事会" }]
+        },
+        {
+          name: "行政部"
+        },
+        {
+          name: "人事部"
+        }
+      ],
+      defaultProps: {
+        label: "name", // 表示 从这个树形显示内容
+        children: "children" // 表示 从这个树形去找子节点
+      },
+      
+    };
   }
 };
 </script>
 
 <style scoped>
 .tree-card {
-  padding: 30px  140px;
-  font-size:14px;
+  padding: 30px 140px;
+  font-size: 14px;
 }
 </style>
