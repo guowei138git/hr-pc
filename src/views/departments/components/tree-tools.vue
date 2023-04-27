@@ -17,8 +17,8 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>添加部门</el-dropdown-item>
-              <el-dropdown-item>编辑部门</el-dropdown-item>
-              <el-dropdown-item>删除部门</el-dropdown-item>
+              <el-dropdown-item v-if="!isRoot">编辑部门</el-dropdown-item>
+              <el-dropdown-item v-if="!isRoot">删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -29,10 +29,16 @@
 
 <script>
 export default {
-  //定义传入的树形
-  treeNode: {
-    required: true,
-    type: Object
+  props: {
+    //定义传入的树形
+    treeNode: {
+      required: true,
+      type: Object
+    },
+    isRoot:{
+        type:Boolean,
+        default:false
+    }
   }
 };
 </script>
