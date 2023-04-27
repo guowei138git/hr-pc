@@ -115,3 +115,30 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+/**
+ * 将列表型的数据转化成树形数据 => 递归算法
+ * 递归 => 自身调用自身
+ * 递归条件 => 一定添加不能一样 否则就会死循环
+ * @param rootValue=''
+ * @returns arr
+ */
+export function transListToTreeData(list, rootValue){
+  var arr = [] // 定义一个空数组
+  list.forEach(item => {
+     // 如果当前对象的 pid === ''  说明是根节点
+    if (item.pid === rootValue) {
+      // 如果是根节点的话 就要去找 item 下面有没有子节点
+      const children = transListToTreeData(list, item.id) // 是子节点: 我的pid = 根节点的id
+      // 那对于递归调用返回的结果 children 存在两种情况： 
+      if (children.length) { // 要么有子节点 要么没有子节点
+        // 有子节点
+        item.children = children // 那有的话 就把这个子节点添加到当前item对象里面
+      }
+      // 没有子节点
+      arr.push(item) // 将当前这个item对象添加到数组中
+    }
+  })
+  // 递归循环完 之后  
+  return arr // 最后返回一个新数组 arr
+}
