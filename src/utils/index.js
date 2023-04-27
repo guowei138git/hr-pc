@@ -124,6 +124,8 @@ export function param2Obj(url) {
  * @returns arr
  */
 export function transListToTreeData(list, rootValue){
+   // 开启断点调试 -> debugger
+  // debugger
   var arr = [] // 定义一个空数组
   list.forEach(item => {
      // 如果当前对象的 pid === ''  说明是根节点
