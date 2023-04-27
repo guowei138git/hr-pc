@@ -4,7 +4,7 @@
       <!-- 组织架构内容 - 头部 -->
       <el-card class="tree-card">
         <!-- 放置结构内容 -->
-        <tree-tools :tree-node="company" is-root="true" />
+        <tree-tools :tree-node="company" :is-root="true" />
         <!-- 放置一个 el-tree -->
         <el-tree :data="departs" :props="defaultProps" :default-expand-all="true">
           <!-- 传入内容 插槽内容 会循环多次 有多少节点 就循环多少次 -->
@@ -18,13 +18,15 @@
 
 <script>
 import TreeTools from "./components/tree-tools";
+import {getDepartments} from "@/api/departments"
+
 export default {
   components: {
     TreeTools
   },
   data() {
     return {
-      company: { name: '江苏传智播客教育科技股份有限公司', manager: '负责人' },
+      company: {},
       departs: [
         {
           name: "总裁办",
@@ -45,6 +47,16 @@ export default {
         children: "children" // 表示 从这个树形去找子节点
       }
     };
+  },
+  created () {
+    this.getDepartments()
+  },
+  methods: {
+    async getDepartments(){
+      const result = await getDepartments()
+      console.log(result)
+      this.company = {name:result.companyName, manager:'负责人'}
+    }
   }
 };
 </script>
