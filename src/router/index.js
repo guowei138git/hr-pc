@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 // 引入多个模块的规则
 import employeesRouter from './modules/employees'
+import departmentsRouter from './modules/departments'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -64,6 +65,7 @@ export const constantRoutes = [
 
 // 动态路由
 export const asyncRouters = [
+  departmentsRouter,
   employeesRouter
 ]
 
