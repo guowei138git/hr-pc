@@ -15,17 +15,21 @@
         </el-tree>
       </el-card>
     </div>
+    <!-- 放置新增弹层组件 -->
+    <add-dept />
   </div>
 </template>
 
 <script>
 import TreeTools from "./components/tree-tools";
+import AddDept from './components/add-dept'
 import {getDepartments} from "@/api/departments"
 import {transListToTreeData} from '@/utils/index'
 
 export default {
   components: {
-    TreeTools
+    TreeTools,
+    AddDept
   },
   data() {
     return {

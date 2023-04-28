@@ -28,12 +28,12 @@ export function delDepartments(id){
 }
 
 /**
- * 封装新增部门接口
+ * 新增部门
  */
 export function addDepartments(data){
     return request({
-        url:'/company/department',
+        url:'/company/department', // restful接口规范
         method:'POST',
-        data
+        data // axios的body参数 data
     })
 }
