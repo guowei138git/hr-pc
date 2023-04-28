@@ -4,25 +4,28 @@
       <!-- 组织架构内容 - 头部 -->
       <el-card class="tree-card">
         <!-- 放置结构内容 -->
-        <tree-tools :tree-node="company" :is-root="true" />
+        <tree-tools :tree-node="company" :is-root="true" 
+        @addDepts="addDepts"
+        />
         <!-- 放置一个 el-tree -->
         <el-tree :data="departs" :props="defaultProps" :default-expand-all="true">
           <!-- 传入内容 插槽内容 会循环多次 有多少节点 就循环多少次 -->
           <!-- 作用域插槽 slot-scope="obj" 接收传递给插槽的数据  data：每个节点的数据对象-->
           <tree-tools slot-scope="{data}" :tree-node="data"
           @delDepts="getDepartments"
+          @addDepts="addDepts"
            />
         </el-tree>
       </el-card>
     </div>
     <!-- 放置新增弹层组件 -->
-    <add-dept />
+    <add-dept :show-dialog=showDialog />
   </div>
 </template>
 
 <script>
 import TreeTools from "./components/tree-tools";
-import AddDept from './components/add-dept'
+import AddDept from './components/add-dept' // 引入新增部门组件
 import {getDepartments} from "@/api/departments"
 import {transListToTreeData} from '@/utils/index'
 
@@ -52,7 +55,10 @@ export default {
       defaultProps: {
         label: "name", // 表示 从这个树形显示内容
         children: "children" // 表示 从这个树形去找子节点
-      }
+      },
+      // 定义控制窗体显示的变量： showDialog
+      showDialog: false, // 默认不显示弹层
+      node:null // 记录当前点击的node节点
     };
   },
   created () {
@@ -64,6 +70,12 @@ export default {
       console.log(result)
       this.company = {name:result.companyName, manager:'负责人'}
       this.departs = transListToTreeData(result.depts, '')
+    },
+    // 监听tree-tools中触发的点击 - 添加子部门的 事件
+    // node 是我们点击的部门
+    addDepts(node){
+      this.showDialog = true // 显示弹层
+      this.node = node
     }
   }
 };
