@@ -1,7 +1,7 @@
 <template>
   <div>
       <h2>
-          公式设置
+          公司设置
       </h2>
   </div>
 </template>
