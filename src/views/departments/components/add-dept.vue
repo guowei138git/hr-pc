@@ -36,15 +36,38 @@
 </template>
 
 <script>
+import { getDepartments } from "@/api/departments";
 export default {
   props: {
     // 需要传入一个props遍历来控制 显示或隐藏
     showDialog: {
       type: Boolean,
       default: false
+    },
+    // 当前操作的节点
+    treeNode: {
+      type: Object,
+      default: null
     }
   },
   data() {
+    // 部门名称的自定义校验
+    const checkNameRepeat = async (rule, value, callback) => {
+      // value 是部门名称 要去和同级部门下的部门名称比较
+      // 有没有相同的  有相同的 -> 不能过  没有相同的 -> 可以过
+      const { depts } = await getDepartments();
+      // 去找同级部门下 有没有和value相同的数据
+      // 首先 先找到同级部门的所有的子部门 pid = id
+      // 同级别就是当前操作的节点 treeNode - id
+      // 子部门就是 pid
+      const isRepeat = depts
+        .filter(item => item.pid === this.treeNode.id)
+        .some(item => item.name === value);
+      // 如果 isRepeat = true ===> 表示找到了一样的名字
+      isRepeat
+        ? callback(new Error(`同级部门下已经存在这个${value}部门了`))
+        : callback();
+    };
     return {
       // 定义表单数据
       formData: {
@@ -56,19 +79,30 @@ export default {
       // 定义校验规则
       rules: {
         name: [
-            {required:true,message:'部门名称不能为空',trigger:'blur'},
-            {min:1,max:50,message:'部门名称要求1-50个字符',trigger:'blur'}
+          { required: true, message: "部门名称不能为空", trigger: "blur" },
+          {
+            min: 1,
+            max: 50,
+            message: "部门名称要求1-50个字符",
+            trigger: "blur"
+          },
+          { trigger: "blur", validator: checkNameRepeat }
         ],
-        code:[
-            {required:true,message:'部门编码不能为空',trigger:'blur'},
-            {min:1,max:50,message:'部门编码要求1-50个字符',trigger:'blur'}
+        code: [
+          { required: true, message: "部门编码不能为空", trigger: "blur" },
+          {
+            min: 1,
+            max: 50,
+            message: "部门编码要求1-50个字符",
+            trigger: "blur"
+          }
         ],
-        manager:[
-            {required:true,message:'部门负责人不能为空',trigger:'blur'}
+        manager: [
+          { required: true, message: "部门负责人不能为空", trigger: "blur" }
         ],
-        introduce:[
-            {required:true,message:'部门介绍不能为空',trigger:'blur'},
-            {min:1,max:300,message:'部门介绍要求1-300个字符'}
+        introduce: [
+          { required: true, message: "部门介绍不能为空", trigger: "blur" },
+          { min: 1, max: 300, message: "部门介绍要求1-300个字符" }
         ]
       }
     };
