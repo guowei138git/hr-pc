@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { getDepartments, addDepartments } from "@/api/departments";
+import { getDepartments, addDepartments, getDepartDetail } from "@/api/departments";
 import {getEmployeeSimplie} from '@/api/employees'
 
 export default {
@@ -139,6 +139,15 @@ export default {
     // 获取员工简单列表数据
     async getEmployeeSimplieFn(){
       this.peoples = await getEmployeeSimplie()
+    },
+    // 获取详情方法
+    async getDepartDetail(id){
+      // 数据回显到form表单上
+      this.formData = await getDepartDetail(id)
+      // 这里操作的当前部门的 id  为什么不直接获取 this.treeNode.id 呢？
+      // 因为我们是在父组件中来调用这个方法 -> 父组件调用子组件中的方法
+      // 而子组件中的 treeNode是通过props传值过来的
+      // 关键是 props传值是异步的  所以为了确保稳定采取调用者传值的形式 
     },
     // 点击确定时触发
     btnOK(){

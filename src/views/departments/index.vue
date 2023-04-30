@@ -23,7 +23,8 @@
     <!-- 父组件 sync修饰符 只要用sync修饰符 就可以省略父组件的监听和方法  可以直接赋值给showDialog -->
     <add-dept :show-dialog.sync=showDialog 
     :tree-node="node" 
-    @addDepts="getDepartments" />
+    @addDepts="getDepartments" 
+    ref="addDeptComponent"/>
   </div>
 </template>
 
@@ -87,6 +88,9 @@ export default {
       this.showDialog = true
       // 赋值操作的节点
       this.node = node
+      // $refs.addDeptComponent - 可以获取到组件 addDeptComponent：add-dept的实例
+      // 那既然可以获取到实例 - 就可以获取这个实例下的方法
+      this.$refs.addDeptComponent.getDepartDetail(node.id)
     }
   }
 };
