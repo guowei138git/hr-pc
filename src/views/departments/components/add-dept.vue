@@ -1,8 +1,8 @@
 <template>
   <!-- 放置弹层组件 -->
   <el-dialog title="新增部门" :visible="showDialog">
-    <!-- 表单数据 -->
-    <el-form :model="formData" :rules="rules" label-width="120px">
+    <!-- 表单数据 label-width：设置标题的宽度-->
+    <el-form ref="deptForm" :model="formData" :rules="rules" label-width="120px">
       <el-form-item label="部门名称" prop="name">
         <el-input v-model="formData.name" style="width:80%" placeholder="1-50个字符" />
       </el-form-item>
@@ -36,14 +36,14 @@
     <el-row slot="footer" type="flex" justify="center">
       <el-col :span="6">
         <el-button size="small">取消</el-button>
-        <el-button size="small" type="primary">确定</el-button>
+        <el-button size="small" type="primary" @click="btnOK">确定</el-button>
       </el-col>
     </el-row>
   </el-dialog>
 </template>
 
 <script>
-import { getDepartments } from "@/api/departments";
+import { getDepartments, addDepartments } from "@/api/departments";
 import {getEmployeeSimplie} from '@/api/employees'
 
 export default {
@@ -137,6 +137,18 @@ export default {
     // 获取员工简单列表数据
     async getEmployeeSimplieFn(){
       this.peoples = await getEmployeeSimplie()
+    },
+    // 点击确定时触发
+    btnOK(){
+      this.$refs.deptForm.validate(async isOK =>{
+        if (isOK){
+          // 校验通过 -> 表示可以提交了
+          // 调用新增接口 - 添加父部门的id
+          await addDepartments({...this.formData, pid:this.treeNode.id})
+          // 新增成功之后，调用告诉父组件 - 重新拉取数据
+          this.$emit('addDepts')
+        }
+      })
     }
   }
 };
