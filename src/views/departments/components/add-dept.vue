@@ -12,7 +12,14 @@
       </el-form-item>
 
       <el-form-item label="部门负责人" prop="manager">
-        <el-select v-model="formData.manager" style="width:80%" placeholder="请选择" />
+        <el-select v-model="formData.manager" style="width:80%" placeholder="请选择"
+        @focus="getEmployeeSimplieFn" >
+        <!-- 需要循环生成选项 这里做一下简单的处理 显示的是用户名  -->
+        <el-option v-for="item in peoples"
+        :key="item.id"
+        :label="item.username"
+        :value="item.username" />
+        </el-select>
       </el-form-item>
 
       <el-form-item label="部门介绍" prop="introduce">
@@ -37,6 +44,8 @@
 
 <script>
 import { getDepartments } from "@/api/departments";
+import {getEmployeeSimplie} from '@/api/employees'
+
 export default {
   props: {
     // 需要传入一个props遍历来控制 显示或隐藏
@@ -48,7 +57,8 @@ export default {
     treeNode: {
       type: Object,
       default: null
-    }
+    },
+    
   },
   data() {
     // 部门名称的自定义校验
@@ -118,8 +128,16 @@ export default {
           { required: true, message: "部门介绍不能为空", trigger: "blur" },
           { min: 1, max: 300, message: "部门介绍要求1-300个字符" }
         ]
-      }
+      },
+      // 接收获取的员工简单列表的数据
+      peoples:[]
     };
+  },
+  methods: {
+    // 获取员工简单列表数据
+    async getEmployeeSimplieFn(){
+      this.peoples = await getEmployeeSimplie()
+    }
   }
 };
 </script>
