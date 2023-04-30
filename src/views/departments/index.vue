@@ -14,6 +14,7 @@
           <tree-tools slot-scope="{data}" :tree-node="data"
           @delDepts="getDepartments"
           @addDepts="addDepts"
+          @editDepts="editDepts"
            />
         </el-tree>
       </el-card>
@@ -78,6 +79,13 @@ export default {
     // node 是我们点击的部门
     addDepts(node){
       this.showDialog = true // 显示弹层
+      this.node = node
+    },
+    // 编辑部门
+    editDepts(node){
+      // 显示弹层
+      this.showDialog = true
+      // 赋值操作的节点
       this.node = node
     }
   }
