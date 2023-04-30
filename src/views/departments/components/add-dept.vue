@@ -53,19 +53,32 @@ export default {
   data() {
     // 部门名称的自定义校验
     const checkNameRepeat = async (rule, value, callback) => {
+      console.log("checkNameRepeat", value);
       // value 是部门名称 要去和同级部门下的部门名称比较
       // 有没有相同的  有相同的 -> 不能过  没有相同的 -> 可以过
+      // debugger
       const { depts } = await getDepartments();
       // 去找同级部门下 有没有和value相同的数据
       // 首先 先找到同级部门的所有的子部门 pid = id
       // 同级别就是当前操作的节点 treeNode - id
       // 子部门就是 pid
+      console.log(this.treeNode);
       const isRepeat = depts
         .filter(item => item.pid === this.treeNode.id)
         .some(item => item.name === value);
       // 如果 isRepeat = true ===> 表示找到了一样的名字
+      console.log("isRepeat:", isRepeat);
       isRepeat
         ? callback(new Error(`同级部门下已经存在这个${value}部门了`))
+        : callback();
+    };
+    const checkCodeRepeat = async (rule, value, callback) => {
+      const { depts } = await getDepartments();
+      // 要求编码 和所有的部门编码都不能重复
+      // 由于历史数据原因， 可能没有code 所以加一个条件判断  就是value不为空
+      const isRepeat = depts.some(item => item.code === value && value);
+      isRepeat
+        ? callback(new Error(`组织架构下已经存在这个${value}编码了`))
         : callback();
     };
     return {
@@ -95,7 +108,8 @@ export default {
             max: 50,
             message: "部门编码要求1-50个字符",
             trigger: "blur"
-          }
+          },
+          { trigger: "blur", validator: checkCodeRepeat }
         ],
         manager: [
           { required: true, message: "部门负责人不能为空", trigger: "blur" }
