@@ -19,7 +19,8 @@
       </el-card>
     </div>
     <!-- 放置新增弹层组件 -->
-    <add-dept :show-dialog=showDialog 
+    <!-- 父组件 sync修饰符 只要用sync修饰符 就可以省略父组件的监听和方法  可以直接赋值给showDialog -->
+    <add-dept :show-dialog.sync=showDialog 
     :tree-node="node" 
     @addDepts="getDepartments" />
   </div>

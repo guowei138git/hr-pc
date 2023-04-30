@@ -1,6 +1,8 @@
 <template>
-  <!-- 放置弹层组件 -->
-  <el-dialog title="新增部门" :visible="showDialog">
+  <!-- 放置弹层组件 
+    在el-dialog中监听其  close事件-->
+  <el-dialog title="新增部门" :visible="showDialog"
+  @close="btnCancel">
     <!-- 表单数据 label-width：设置标题的宽度-->
     <el-form ref="deptForm" :model="formData" :rules="rules" label-width="120px">
       <el-form-item label="部门名称" prop="name">
@@ -35,7 +37,7 @@
     <!-- 确定和取消 -->
     <el-row slot="footer" type="flex" justify="center">
       <el-col :span="6">
-        <el-button size="small">取消</el-button>
+        <el-button size="small" @click="btnCancel">取消</el-button>
         <el-button size="small" type="primary" @click="btnOK">确定</el-button>
       </el-col>
     </el-row>
@@ -147,8 +149,17 @@ export default {
           await addDepartments({...this.formData, pid:this.treeNode.id})
           // 新增成功之后，调用告诉父组件 - 重新拉取数据
           this.$emit('addDepts')
+          // update固定写法
+          // ->update:props名称
+          this.$emit('update:showDialog', false)
         }
       })
+    },
+    // 点击取消按钮时触发
+    btnCancel(){
+      // 取消时 重置数据 和校验
+      this.$refs.deptForm.resetFields() // 重置校验字段
+      this.$emit('update:showDialog', false) // 关闭弹层
     }
   }
 };
