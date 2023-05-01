@@ -111,11 +111,23 @@ export default {
         ? callback(new Error(`同级部门下已经存在这个${value}部门了`))
         : callback();
     };
+    // 检查编码重复
     const checkCodeRepeat = async (rule, value, callback) => {
+      // 首先 - 先要获取最新的组织架构数据
       const { depts } = await getDepartments();
-      // 要求编码 和所有的部门编码都不能重复
-      // 由于历史数据原因， 可能没有code 所以加一个条件判断  就是value不为空
-      const isRepeat = depts.some(item => item.code === value && value);
+      // 检查重复规则 - 需要支持两种模式： 新增模式 / 编辑模式
+      let isRepeat = false
+      if (this.formData.id) {
+        // 编辑模式 -> 因为编辑模式下  不能算自己
+        // 由于历史数据原因， 可能没有code 所以加一个条件判断  就是value不为空
+        isRepeat = depts.some(item => item.id !== this.formData.id
+        && item.code === value && value )
+      } else {
+        // 新增模式 -> 要求编码 和所有的部门编码都不能重复
+       // 由于历史数据原因， 可能没有code 所以加一个条件判断  就是value不为空
+       isRepeat = depts.some(item => item.code === value && value);
+      }
+      console.log('checkCodeRepeat=', isRepeat)
       isRepeat
         ? callback(new Error(`组织架构下已经存在这个${value}编码了`))
         : callback();
