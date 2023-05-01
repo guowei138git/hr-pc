@@ -83,15 +83,28 @@ export default {
       // value 是部门名称 要去和同级部门下的部门名称比较
       // 有没有相同的  有相同的 -> 不能过  没有相同的 -> 可以过
       // debugger
+      // 首先 - 先要获取最新的组织架构数据
       const { depts } = await getDepartments();
       // 去找同级部门下 有没有和value相同的数据
       // 首先 先找到同级部门的所有的子部门 pid = id
       // 同级别就是当前操作的节点 treeNode - id
       // 子部门就是 pid
       console.log(this.treeNode);
-      const isRepeat = depts
-        .filter(item => item.pid === this.treeNode.id)
-        .some(item => item.name === value);
+      // 检查重复规则 - 需要支持两种模式  新增模式 / 编辑模式
+      let isRepeat = false;
+      if (this.formData.id) {
+        // 有id -> 是编辑模式
+        // 注意：编辑模式下 校验规则 ->
+        // 规则：除了我之外 同级部门下 不能有重复的
+        isRepeat = depts
+          .filter(item => item.id !== this.formData.id && item.pid === this.treeNode.pid)
+          .some(item => item.name === value);
+      } else {
+        // 没id -> 是新增模式
+        isRepeat = depts
+          .filter(item => item.pid === this.treeNode.id)
+          .some(item => item.name === value);
+      }
       // 如果 isRepeat = true ===> 表示找到了一样的名字
       console.log("isRepeat:", isRepeat);
       isRepeat
