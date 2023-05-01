@@ -47,3 +47,13 @@ export function getDepartDetail(id){
         method:'GET'
     })
 }
+
+/**
+ * 封装编辑部门接口
+ */
+export function updateDepartments(data){
+    return request({
+        url:`/company/department/${data.id}`,
+        method:'PUT'
+    })
+}

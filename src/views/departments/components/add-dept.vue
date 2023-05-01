@@ -1,8 +1,7 @@
 <template>
   <!-- 放置弹层组件 
-    在el-dialog中监听其  close事件-->
-  <el-dialog :title="showTitle" :visible="showDialog"
-  @close="btnCancel">
+  在el-dialog中监听其  close事件-->
+  <el-dialog :title="showTitle" :visible="showDialog" @close="btnCancel">
     <!-- 表单数据 label-width：设置标题的宽度-->
     <el-form ref="deptForm" :model="formData" :rules="rules" label-width="120px">
       <el-form-item label="部门名称" prop="name">
@@ -14,13 +13,19 @@
       </el-form-item>
 
       <el-form-item label="部门负责人" prop="manager">
-        <el-select v-model="formData.manager" style="width:80%" placeholder="请选择"
-        @focus="getEmployeeSimplieFn" >
-        <!-- 需要循环生成选项 这里做一下简单的处理 显示的是用户名  -->
-        <el-option v-for="item in peoples"
-        :key="item.id"
-        :label="item.username"
-        :value="item.username" />
+        <el-select
+          v-model="formData.manager"
+          style="width:80%"
+          placeholder="请选择"
+          @focus="getEmployeeSimplieFn"
+        >
+          <!-- 需要循环生成选项 这里做一下简单的处理 显示的是用户名  -->
+          <el-option
+            v-for="item in peoples"
+            :key="item.id"
+            :label="item.username"
+            :value="item.username"
+          />
         </el-select>
       </el-form-item>
 
@@ -45,8 +50,13 @@
 </template>
 
 <script>
-import { getDepartments, addDepartments, getDepartDetail } from "@/api/departments";
-import {getEmployeeSimplie} from '@/api/employees'
+import {
+  getDepartments,
+  addDepartments,
+  getDepartDetail,
+  updateDepartments
+} from "@/api/departments";
+import { getEmployeeSimplie } from "@/api/employees";
 
 export default {
   props: {
@@ -59,12 +69,11 @@ export default {
     treeNode: {
       type: Object,
       default: null
-    },
-    
+    }
   },
-  computed:{
-    showTitle(){
-      return this.formData.id ? '编辑部门' : '新增子部门'
+  computed: {
+    showTitle() {
+      return this.formData.id ? "编辑部门" : "新增子部门";
     }
   },
   data() {
@@ -137,51 +146,60 @@ export default {
         ]
       },
       // 接收获取的员工简单列表的数据
-      peoples:[]
+      peoples: []
     };
   },
   methods: {
     // 获取员工简单列表数据
-    async getEmployeeSimplieFn(){
-      this.peoples = await getEmployeeSimplie()
+    async getEmployeeSimplieFn() {
+      this.peoples = await getEmployeeSimplie();
     },
     // 获取详情方法
-    async getDepartDetail(id){
+    async getDepartDetail(id) {
       // 数据回显到form表单上
-      this.formData = await getDepartDetail(id)
+      this.formData = await getDepartDetail(id);
       // 这里操作的当前部门的 id  为什么不直接获取 this.treeNode.id 呢？
       // 因为我们是在父组件中来调用这个方法 -> 父组件调用子组件中的方法
       // 而子组件中的 treeNode是通过props传值过来的
-      // 关键是 props传值是异步的  所以为了确保稳定采取调用者传值的形式 
+      // 关键是 props传值是异步的  所以为了确保稳定采取调用者传值的形式
     },
     // 点击确定时触发
-    btnOK(){
-      this.$refs.deptForm.validate(async isOK =>{
-        if (isOK){
+    btnOK() {
+      this.$refs.deptForm.validate(async isOK => {
+        if (isOK) {
           // 校验通过 -> 表示可以提交了
-          // 调用新增接口 - 添加父部门的id
-          await addDepartments({...this.formData, pid:this.treeNode.id})
-          // 新增成功之后，调用告诉父组件 - 重新拉取数据
-          this.$emit('addDepts')
+          if (this.formData.id) {
+            // 判断是编辑模式还是新增模式
+            // 为 true 有id 说明是编辑模式 -> 调用编辑接口
+            await updateDepartments(this.formData);
+            // 编辑成功后 ->
+          } else {
+            // 新增模式 ->
+            // 调用新增接口 - 添加父部门的id
+            await addDepartments({ ...this.formData, pid: this.treeNode.id });
+            // 新增成功之后 ->
+          }
+          // 调用告诉父组件 - 重新拉取数据
+          this.$emit("addDepts");
           // update固定写法
-          // ->update:props名称
-          this.$emit('update:showDialog', false)
+          // ->update:props名称 - 关闭弹层
+          this.$emit("update:showDialog", false);
         }
-      })
+      });
     },
     // 点击取消按钮时触发
-    btnCancel(){
+    btnCancel() {
       // 取消时 重置数据 和校验
-      this.$refs.deptForm.resetFields() // 重置校验字段
+      this.$refs.deptForm.resetFields(); // 重置校验字段
       // 重置数据 因为 resetFileds 只能重置表单上的数据 非表单上的数据不能重置
       // 比如： 编辑中的  id  不能重置  解决方案 -> 自定义重置
       this.formData = {
-        name:'',
-        code:'',
-        manager:'',
-        introduce:''
-      }
-      this.$emit('update:showDialog', false) // 关闭弹层
+        name: "",
+        code: "",
+        manager: "",
+        introduce: ""
+      };
+      this.$emit("update:showDialog", false); // 关闭弹层
     }
   }
 };
