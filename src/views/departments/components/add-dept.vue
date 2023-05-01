@@ -173,6 +173,14 @@ export default {
     btnCancel(){
       // 取消时 重置数据 和校验
       this.$refs.deptForm.resetFields() // 重置校验字段
+      // 重置数据 因为 resetFileds 只能重置表单上的数据 非表单上的数据不能重置
+      // 比如： 编辑中的  id  不能重置  解决方案 -> 自定义重置
+      this.formData = {
+        name:'',
+        code:'',
+        manager:'',
+        introduce:''
+      }
       this.$emit('update:showDialog', false) // 关闭弹层
     }
   }
