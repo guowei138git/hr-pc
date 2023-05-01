@@ -1,7 +1,7 @@
 <template>
   <!-- 放置弹层组件 
     在el-dialog中监听其  close事件-->
-  <el-dialog title="新增部门" :visible="showDialog"
+  <el-dialog :title="showTitle" :visible="showDialog"
   @close="btnCancel">
     <!-- 表单数据 label-width：设置标题的宽度-->
     <el-form ref="deptForm" :model="formData" :rules="rules" label-width="120px">
@@ -61,6 +61,11 @@ export default {
       default: null
     },
     
+  },
+  computed:{
+    showTitle(){
+      return this.formData.id ? '编辑部门' : '新增子部门'
+    }
   },
   data() {
     // 部门名称的自定义校验
