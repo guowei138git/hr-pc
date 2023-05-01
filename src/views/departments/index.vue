@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <!-- 组织架构内容 - 头部 -->
       <el-card class="tree-card">
@@ -63,7 +63,8 @@ export default {
       },
       // 定义控制窗体显示的变量： showDialog
       showDialog: false, // 默认不显示弹层
-      node:null // 记录当前点击的node节点
+      node:null, // 记录当前点击的node节点
+      loading:false // 用来控制进度条的显示和隐藏
     };
   },
   created () {
@@ -71,10 +72,12 @@ export default {
   },
   methods: {
     async getDepartments(){
+      this.loading = true
       const result = await getDepartments()
       console.log(result)
       this.company = {name:result.companyName, manager:'负责人',id:''}
       this.departs = transListToTreeData(result.depts, '')
+      this.loading = false
     },
     // 监听tree-tools中触发的点击 - 添加子部门的 事件
     // node 是我们点击的部门
