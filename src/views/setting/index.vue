@@ -72,7 +72,7 @@
     </div>
     <!-- 放置一个弹层组件 -->
     <el-dialog title="编辑部门" :visible="showDialog">
-      <el-form :model="roleForm" :rules="rules" label-width="120px">
+      <el-form ref="roleForm" :model="roleForm" :rules="rules" label-width="120px">
         <el-form-item prop="name" label="角色名称">
           <el-input v-model="roleForm.name" />
         </el-form-item>
@@ -83,8 +83,8 @@
       <!-- 放置footer插槽 -->
       <el-row type="flex" justify="center">
         <el-col :span="8">
-          <el-button type="primary" size="small">取消</el-button>
-          <el-button type="primary" size="small">确定</el-button>
+          <el-button type="primary" size="small" @click="btnCancel">取消</el-button>
+          <el-button type="primary" size="small" @click="btnOK">确定</el-button>
         </el-col>
       </el-row>
     </el-dialog>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo, deleteRole } from "@/api/setting";
+import { getRoleList, getCompanyInfo, deleteRole, getRoleDetail, updateRole } from "@/api/setting";
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -159,8 +159,33 @@ export default {
         console.log(error);
       }
     },
-    editRole(id){
-      this.showDialog = true
+    async editRole(id){
+      this.roleForm = await getRoleDetail(id)
+      this.showDialog = true // 为了不出现闪烁 先获取数据 再弹出层
+    },
+    // 点击确定 - 触发
+    btnOK(){
+      console.log('确定->btnOK')
+      this.$refs.roleForm.validate( async isOK => {
+        if (isOK) {
+          // 这里需要提前考虑： 新增的场景
+          if (this.roleForm.id) {
+            // 编辑场景
+            await updateRole(this.roleForm)
+          } else {
+            // 新增场景
+          }
+          // 关闭弹层
+          this.showDialog = false
+          // 重新拉取数据
+          this.getRoleListFn()
+          // 弹框提示
+          this.$message.success('操作成功')
+        }
+      })
+    },
+    btnCancel(){
+      this.showDialog = false
     }
   }
 };
