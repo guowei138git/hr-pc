@@ -19,8 +19,10 @@
                 <!-- 作用域插槽 -->
                 <template slot-scope="{row}">
                   <el-button size="small" type="success">分配权限</el-button>
-                  <el-button size="small" type="primary">编辑</el-button>
-                  <el-button size="small" type="danger" @click="deleteRoleFn(row.id)">删除</el-button>
+                  <el-button size="small" type="primary" 
+                    @click="editRole(row.id)">编辑</el-button>
+                  <el-button size="small" type="danger"
+                    @click="deleteRoleFn(row.id)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -69,13 +71,13 @@
       </el-card>
     </div>
     <!-- 放置一个弹层组件 -->
-    <el-dialog title="编辑部门" :visible="true">
+    <el-dialog title="编辑部门" :visible="showDialog">
       <el-form :model="roleForm" :rules="rules" label-width="120px">
-        <el-form-item label="角色名称">
-          <el-input />
+        <el-form-item prop="name" label="角色名称">
+          <el-input v-model="roleForm.name" />
         </el-form-item>
         <el-form-item label="角色描述">
-          <el-input />
+          <el-input v-model="roleForm.description" />
         </el-form-item>
       </el-form>
       <!-- 放置footer插槽 -->
@@ -156,6 +158,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    editRole(id){
+      this.showDialog = true
     }
   }
 };
