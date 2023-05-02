@@ -2,7 +2,8 @@
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
     <!-- 通用工具栏 -->
-    <page-tools>
+    <page-tools :show-before="true">
+      <span slot="before">我想你们</span>
       <el-button slot="after" type="primary">导入excel</el-button>
     </page-tools>
   </div>
