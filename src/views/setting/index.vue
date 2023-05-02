@@ -8,11 +8,12 @@
           <el-tab-pane label="角色管理">
             <!-- 左侧的内容 -->
             <el-row style="height:60px">
-              <el-button 
-              icon="el-icon-plus" 
-              type="primary" 
-              size="small" 
-              @click="showDialog=true">新增角色</el-button>
+              <el-button
+                icon="el-icon-plus"
+                type="primary"
+                size="small"
+                @click="showDialog=true"
+              >新增角色</el-button>
             </el-row>
             <!-- 给表格绑定数据 -->
             <el-table border :data="list">
@@ -23,10 +24,8 @@
                 <!-- 作用域插槽 -->
                 <template slot-scope="{row}">
                   <el-button size="small" type="success">分配权限</el-button>
-                  <el-button size="small" type="primary" 
-                    @click="editRole(row.id)">编辑</el-button>
-                  <el-button size="small" type="danger"
-                    @click="deleteRoleFn(row.id)">删除</el-button>
+                  <el-button size="small" type="primary" @click="editRole(row.id)">编辑</el-button>
+                  <el-button size="small" type="danger" @click="deleteRoleFn(row.id)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -96,7 +95,14 @@
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo, deleteRole, getRoleDetail, updateRole, addRole } from "@/api/setting";
+import {
+  getRoleList,
+  getCompanyInfo,
+  deleteRole,
+  getRoleDetail,
+  updateRole,
+  addRole
+} from "@/api/setting";
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -163,34 +169,41 @@ export default {
         console.log(error);
       }
     },
-    async editRole(id){
-      this.roleForm = await getRoleDetail(id)
-      this.showDialog = true // 为了不出现闪烁 先获取数据 再弹出层
+    async editRole(id) {
+      this.roleForm = await getRoleDetail(id);
+      this.showDialog = true; // 为了不出现闪烁 先获取数据 再弹出层
     },
     // 点击确定 - 触发
-    btnOK(){
-      console.log('确定->btnOK')
-      this.$refs.roleForm.validate( async isOK => {
+    btnOK() {
+      console.log("确定->btnOK");
+      this.$refs.roleForm.validate(async isOK => {
         if (isOK) {
           // 这里需要提前考虑： 新增的场景
           if (this.roleForm.id) {
             // 编辑场景
-            await updateRole(this.roleForm)
+            await updateRole(this.roleForm);
           } else {
             // 新增场景
-            await addRole(this.roleForm)
+            await addRole(this.roleForm);
           }
           // 重新拉取数据
-          this.getRoleListFn()
+          this.getRoleListFn();
           // 弹框提示
-          this.$message.success('操作成功')
+          this.$message.success("操作成功");
           // 关闭弹层
-          this.showDialog = false
+          this.showDialog = false;
         }
-      })
+      });
     },
-    btnCancel(){
-      this.showDialog = false
+    // 取消按钮 - 触发
+    btnCancel() {
+      this.roleForm = {
+        name: "",
+        description: ""
+      };
+      // 移除校验
+      this.$refs.roleForm.resetFields();
+      this.showDialog = false;
     }
   }
 };
