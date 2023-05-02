@@ -42,16 +42,16 @@
             <!-- 右边内容 -->
             <el-form label-width="120px" style="margin-top:50px">
               <el-form-item label="公司名称">
-                <el-input disabled style="400px"></el-input>
+                <el-input v-model="formData.name" disabled style="400px"></el-input>
               </el-form-item>
               <el-form-item label="公司地址">
-                <el-input disabled style="400px"></el-input>
+                <el-input v-model="formData.companyAddress" disabled style="400px"></el-input>
               </el-form-item>
               <el-form-item label="邮箱">
-                <el-input disabled style="400px"></el-input>
+                <el-input v-model="formData.mailbox" disabled style="400px"></el-input>
               </el-form-item>
               <el-form-item label="备注">
-                <el-input type="textarea" :rows="3" disabled style="400px"></el-input>
+                <el-input v-model="formData.remarks" type="textarea" :rows="3" disabled style="400px"></el-input>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -62,7 +62,8 @@
 </template>
 
 <script>
-import { getRoleList } from '@/api/setting'
+import { getRoleList, getCompanyInfo } from '@/api/setting'
+import { mapGetters } from 'vuex';
 export default {
   data () {
     return {
@@ -73,11 +74,17 @@ export default {
         page:1,
         pagesize:10,
         total:0 // 记录总数
-      }
+      },
+      // 公司信息 - formData对象接收
+      formData: {}
     }
+  },
+  computed: {
+    ...mapGetters(['companyId'])
   },
   created () {
     this.getRoleListFn()
+    this.getCompanyInfoFn()
   },
   methods: {
     async getRoleListFn(){
@@ -92,6 +99,12 @@ export default {
       // 将当前页面赋值 给当前的最新页码
       this.page.page = newPage
       this.getRoleListFn()
+    },
+    // 获取公司信息
+    async getCompanyInfoFn(){
+      const companyId = this.companyId
+      console.log('companyId=', companyId)
+      this.formData = await getCompanyInfo(companyId)
     }
   }
 };
