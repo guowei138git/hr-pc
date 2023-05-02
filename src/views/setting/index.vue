@@ -63,6 +63,24 @@
         </el-tabs>
       </el-card>
     </div>
+    <!-- 放置一个弹层组件 -->
+    <el-dialog title="编辑部门" :visible="true">
+      <el-form label-width="120px">
+        <el-form-item label="角色名称">
+          <el-input />
+        </el-form-item>
+        <el-form-item label="角色描述">
+          <el-input />
+        </el-form-item>
+      </el-form>
+      <!-- 放置footer插槽 -->
+      <el-row type="flex" justify="center">
+        <el-col :span="8">
+          <el-button type="primary" size="small">取消</el-button>
+          <el-button type="primary" size="small">确定</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -81,7 +99,13 @@ export default {
         total:0 // 记录总数
       },
       // 公司信息 - formData对象接收
-      formData: {}
+      formData: {},
+      // 控制 - 弹层显示
+      showDialog: false,
+      roleForm:{
+        name:'',
+        description:''
+      }
     }
   },
   computed: {
