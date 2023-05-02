@@ -8,7 +8,11 @@
           <el-tab-pane label="角色管理">
             <!-- 左侧的内容 -->
             <el-row style="height:60px">
-              <el-button icon="el-icon-plus" type="primary" size="small">新增角色</el-button>
+              <el-button 
+              icon="el-icon-plus" 
+              type="primary" 
+              size="small" 
+              @click="showDialog=true">新增角色</el-button>
             </el-row>
             <!-- 给表格绑定数据 -->
             <el-table border :data="list">
@@ -92,7 +96,7 @@
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo, deleteRole, getRoleDetail, updateRole } from "@/api/setting";
+import { getRoleList, getCompanyInfo, deleteRole, getRoleDetail, updateRole, addRole } from "@/api/setting";
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -174,13 +178,14 @@ export default {
             await updateRole(this.roleForm)
           } else {
             // 新增场景
+            await addRole(this.roleForm)
           }
-          // 关闭弹层
-          this.showDialog = false
           // 重新拉取数据
           this.getRoleListFn()
           // 弹框提示
           this.$message.success('操作成功')
+          // 关闭弹层
+          this.showDialog = false
         }
       })
     },
