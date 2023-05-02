@@ -10,14 +10,19 @@
             <el-row style="height:60px">
               <el-button icon="el-icon-plus" type="primary" size="small">新增角色</el-button>
             </el-row>
+            <!-- 给表格绑定数据 -->
             <el-table border="" :data="list">
               <el-table-column label="序号" width="120" align="center" type="index" />
               <el-table-column label="名称" width="240" align="center" prop="name" />
               <el-table-column label="描述" align="center" prop="description" />
               <el-table-column label="操作" align="center">
-                <el-button size="small" type="success">分配权限</el-button>
-                <el-button size="small" type="primary">编辑</el-button>
-                <el-button size="small" type="danger">删除</el-button>
+                <!-- 作用域插槽 -->
+                <template slot-scope="{row}">
+                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="primary">编辑</el-button>
+                  <el-button size="small" type="danger" @click="deleteRoleFn(row.id)">删除</el-button>
+                </template>
+                
               </el-table-column>
             </el-table>
             <!-- 放置分页组件 -->
@@ -62,7 +67,7 @@
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo } from '@/api/setting'
+import { getRoleList, getCompanyInfo, deleteRole } from '@/api/setting'
 import { mapGetters } from 'vuex';
 export default {
   data () {
@@ -105,6 +110,20 @@ export default {
       const companyId = this.companyId
       console.log('companyId=', companyId)
       this.formData = await getCompanyInfo(companyId)
+    },
+    // 删除角色
+    async deleteRoleFn(id){
+      try {
+        // 弹框 - 提示
+        await this.$confirm('确认删除该角色吗？')
+        // 只有点击了 - 确定 -> 菜能进入到下方
+        await deleteRole(id) // 调用删除接口
+        // 重新加载数据
+        this.getRoleListFn()
+        this.$message.success('删除角色成功')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 };
