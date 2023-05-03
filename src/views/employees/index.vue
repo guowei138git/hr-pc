@@ -3,7 +3,7 @@
       <div class="app-container">
         <!-- 放置通用工具栏 -->
         <page-tools :show-before="true">
-          <span slot="before">共166条记录</span>
+          <span slot="before">共{{page.total}}条记录</span>
           <template slot="after">
             <el-button size="small" type="warning">导入</el-button>
             <el-button size="small" type="danger">导出</el-button>
@@ -22,6 +22,15 @@
             <el-table-column label="账户状态" prop="enableState" />
             <el-table-column label="操作" fixed="right" />
           </el-table>
+          <!-- 放置分页组件 -->
+          <el-row type="flex" justify="center" align="middle" style="height:60px">
+            <el-pagination layout="prev,pager,next" 
+              :current-page="page.page"
+              :page-size="page.size"
+              :total="page.total"
+              @current-change="changePageFn"
+            />
+          </el-row>
         </el-card>
       </div>
   </div>
@@ -38,7 +47,7 @@ export default {
       list:[],
       page:{
         page:1, // 当前页码
-        size:10, // 每页显示的条数
+        size:5, // 每页显示的条数
         total:0 // 总数
       }
     }
@@ -53,6 +62,13 @@ export default {
       this.page.total = total
       this.list = rows
       this.loading = false
+    },
+    changePageFn(newPage){
+      console.log('newPage:',newPage)
+      // 赋值当前最新页码
+      this.page.page = newPage
+      // 重新拉取数据
+      this.getEmployeeListFn()
     }
   }
 }
