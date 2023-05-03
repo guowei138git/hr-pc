@@ -11,7 +11,7 @@
           </template>
         </page-tools>
         <!-- 放置表格 -->
-        <el-card>
+        <el-card v-loading="loading">
           <el-table border :data="list">
             <el-table-column label="序号" type="index"  />
             <el-table-column label="姓名" prop="username" />
@@ -48,10 +48,11 @@ export default {
   },
   methods: {
     async getEmployeeListFn(){
+      this.loading = true
       const {total, rows} = await getEmployeeList(this.page)
       this.page.total = total
       this.list = rows
-      
+      this.loading = false
     }
   }
 }
