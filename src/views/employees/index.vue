@@ -12,15 +12,15 @@
         </page-tools>
         <!-- 放置表格 -->
         <el-card>
-          <el-table>
-            <el-table-column label="序号"  />
-            <el-table-column label="姓名"  />
-            <el-table-column label="工号"  />
-            <el-table-column label="聘用形式"  />
-            <el-table-column label="部门"  />
-            <el-table-column label="入职时间"  />
-            <el-table-column label="账户状态"  />
-            <el-table-column label="操作"  />
+          <el-table border :data="list">
+            <el-table-column label="序号" type="index"  />
+            <el-table-column label="姓名" prop="username" />
+            <el-table-column label="工号" prop="workNumber" />
+            <el-table-column label="聘用形式" prop="formOfEmployment" />
+            <el-table-column label="部门" prop="departmentName" />
+            <el-table-column label="入职时间" prop="timeOfEntry" />
+            <el-table-column label="账户状态" prop="enableState" />
+            <el-table-column label="操作" fixed="right" />
           </el-table>
         </el-card>
       </div>
@@ -28,8 +28,32 @@
 </template>
 
 <script>
-export default {
+import {getEmployeeList} from '@/api/employees'
 
+export default {
+  data () {
+    return {
+      loading:false,
+      // 接收数据的list集合
+      list:[],
+      page:{
+        page:1, // 当前页码
+        size:10, // 每页显示的条数
+        total:0 // 总数
+      }
+    }
+  },
+  created () {
+    this.getEmployeeListFn()
+  },
+  methods: {
+    async getEmployeeListFn(){
+      const {total, rows} = await getEmployeeList(this.page)
+      this.page.total = total
+      this.list = rows
+      
+    }
+  }
 }
 </script>
 
