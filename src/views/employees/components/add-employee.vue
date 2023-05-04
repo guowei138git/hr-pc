@@ -9,10 +9,10 @@
         <el-input style="width:50%" placeholder="请输入手机号" />
       </el-form-item>
       <el-form-item label="入职时间">
-        <el-input style="width:50%" placeholder="请选择入职时间" />
+        <el-date-picker style="width:50%" placeholder="请选择入职时间" />
       </el-form-item>
       <el-form-item label="聘用形式">
-        <el-input style="width:50%" placeholder="请选择" />
+        <el-select style="width:50%" placeholder="请选择" />
       </el-form-item>
       <el-form-item label="工号">
         <el-input style="width:50%" placeholder="请输入工号" />
@@ -21,9 +21,16 @@
         <el-input style="width:50%" placeholder="请选择部门" />
       </el-form-item>
       <el-form-item label="转正时间">
-        <el-input style="width:50%" placeholder="请选择转正时间" />
+        <el-date-picker style="width:50%" placeholder="请选择转正时间" />
       </el-form-item>
     </el-form>
+    <!-- footer插槽 来实现 底部的取消和确定按钮-->
+    <el-row slot="footer" type="flex" justify="center">
+        <el-col :span="6">
+            <el-button size="small">取消</el-button>
+            <el-button type="primary" size="small">确定</el-button>
+        </el-col>
+    </el-row>
   </el-dialog>
 </template>
 
