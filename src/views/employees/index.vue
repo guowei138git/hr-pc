@@ -50,6 +50,8 @@
           </el-row>
         </el-card>
       </div>
+      <!-- 放置弹层 -->
+      <AddEmployee />
   </div>
 </template>
 
@@ -57,6 +59,7 @@
 import {getEmployeeList, delEmployee} from '@/api/employees'
 // 引入员工的枚举
 import EmployeeEnum from '@/api/constant/employees'
+import AddEmployee from './components/add-employee'
 
 export default {
   data () {
@@ -70,6 +73,9 @@ export default {
         total:0 // 总数
       }
     }
+  },
+  components: {
+    AddEmployee
   },
   created () {
     this.getEmployeeListFn()
