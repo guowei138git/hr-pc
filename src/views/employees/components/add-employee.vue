@@ -20,7 +20,8 @@
       <el-form-item label="部门" prop="departmentName">
         <el-input v-model="formData.departmentName" style="width:50%" placeholder="请选择部门"
         @focus="getDepartmentsFn" />
-        <el-tree 
+        <!-- 放置一个树形组件 -->
+        <el-tree v-if="showTree"
           :data="treeData" 
           :props="{label: 'name'}" 
           :default-expand-all="true" />
@@ -90,11 +91,15 @@ export default {
         timeOfEntry: [{ required: true, message: "入职时间", trigger: "blur" }]
       },
       // 定义一个数组来接收树形结构的数据
-      treeData:[]
+      treeData:[],
+      // 默认不显示树形组件
+      showTree:false
     };
   },
   methods: {
     async getDepartmentsFn(){
+      // 显示树形组件
+      this.showTree = true
       const { depts } = await getDepartments()
       // depts是一个数组 它需要转化成树形结构 才可以被 el-tree 显示
       this.treeData = transListToTreeData(depts, '')
