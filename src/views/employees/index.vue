@@ -7,7 +7,8 @@
           <template slot="after">
             <el-button size="small" type="warning">导入</el-button>
             <el-button size="small" type="danger">导出</el-button>
-            <el-button size="small" type="primary">新增员工</el-button>
+            <el-button size="small" type="primary" 
+            @click="showDialog=true">新增员工</el-button>
           </template>
         </page-tools>
         <!-- 放置表格 -->
@@ -50,8 +51,9 @@
           </el-row>
         </el-card>
       </div>
-      <!-- 放置弹层 -->
-      <AddEmployee />
+      <!-- 放组件弹层 -->
+      <!-- sync修饰符：是子组件 去改变父组件的数据的 一个语法糖 -->
+      <AddEmployee :show-dialog.sync="showDialog" />
   </div>
 </template>
 
@@ -71,7 +73,9 @@ export default {
         page:1, // 当前页码
         size:5, // 每页显示的条数
         total:0 // 总数
-      }
+      },
+      // 默认是关闭的弹层
+      showDialog:false
     }
   },
   components: {
