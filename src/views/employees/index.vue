@@ -31,7 +31,13 @@
                 <el-switch :value="row.enableState === 1"></el-switch>
               </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" />
+            <el-table-column label="操作" fixed="right" >
+              <template slot-scope="{row}">
+                <el-button type="text" size="small">查看</el-button>
+                <el-button type="text" size="small"
+                  @click="deleteEmployeeFn(row.id)">删除</el-button>
+              </template>
+            </el-table-column>
           </el-table>
           <!-- 放置分页组件 -->
           <el-row type="flex" justify="center" align="middle" style="height:60px">
@@ -48,7 +54,7 @@
 </template>
 
 <script>
-import {getEmployeeList} from '@/api/employees'
+import {getEmployeeList, delEmployee} from '@/api/employees'
 // 引入员工的枚举
 import EmployeeEnum from '@/api/constant/employees'
 
@@ -89,6 +95,17 @@ export default {
       const obj = EmployeeEnum.hireType.find(item => item.id === cellValue)
       console.log(obj)
       return obj ? obj.value : '未知'
+    },
+    // 删除员工
+    async deleteEmployeeFn(id){
+      try {
+        await this.$confirm('您确定删除该员工吗？')
+        await delEmployee(id)
+        this.getEmployeeListFn()
+        this.$message.success('删除员工成功')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
