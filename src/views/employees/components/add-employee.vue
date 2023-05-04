@@ -22,6 +22,7 @@
         @focus="getDepartmentsFn" />
         <!-- 放置一个树形组件 -->
         <el-tree v-if="showTree"
+          v-loading="loading"
           :data="treeData" 
           :props="{label: 'name'}" 
           :default-expand-all="true" />
@@ -93,16 +94,22 @@ export default {
       // 定义一个数组来接收树形结构的数据
       treeData:[],
       // 默认不显示树形组件
-      showTree:false
+      showTree:false,
+      // 加载进度条
+      loading:false
     };
   },
   methods: {
     async getDepartmentsFn(){
       // 显示树形组件
       this.showTree = true
+      // 显示进度条
+      this.loading = true
       const { depts } = await getDepartments()
       // depts是一个数组 它需要转化成树形结构 才可以被 el-tree 显示
       this.treeData = transListToTreeData(depts, '')
+      // 关闭进度条
+      this.loading = false
     }
   }
 };
