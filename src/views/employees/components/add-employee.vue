@@ -18,7 +18,12 @@
         <el-input v-model="formData.workNumber" style="width:50%" placeholder="请输入工号" />
       </el-form-item>
       <el-form-item label="部门" prop="departmentName">
-        <el-input v-model="formData.departmentName" style="width:50%" placeholder="请选择部门" />
+        <el-input v-model="formData.departmentName" style="width:50%" placeholder="请选择部门"
+        @focus="getDepartmentsFn" />
+        <el-tree 
+          :data="treeData" 
+          :props="{label: 'name'}" 
+          :default-expand-all="true" />
       </el-form-item>
       <el-form-item label="转正时间" prop="correctionTime">
         <el-date-picker v-model="formData.correctionTime" style="width:50%" placeholder="请选择转正时间" />
@@ -35,6 +40,9 @@
 </template>
 
 <script>
+import { getDepartments } from "@/api/departments"
+import { transListToTreeData } from '@/utils/index'
+
 export default {
   props: {
     showDialog: {
@@ -80,8 +88,17 @@ export default {
           { required: true, message: "部门不能为空", trigger: "change" }
         ],
         timeOfEntry: [{ required: true, message: "入职时间", trigger: "blur" }]
-      }
+      },
+      // 定义一个数组来接收树形结构的数据
+      treeData:[]
     };
+  },
+  methods: {
+    async getDepartmentsFn(){
+      const { depts } = await getDepartments()
+      // depts是一个数组 它需要转化成树形结构 才可以被 el-tree 显示
+      this.treeData = transListToTreeData(depts, '')
+    }
   }
 };
 </script>
