@@ -19,7 +19,12 @@
             <el-table-column label="聘用形式" prop="formOfEmployment"
               :formatter="formatEmployment" />
             <el-table-column label="部门" prop="departmentName" />
-            <el-table-column label="入职时间" prop="timeOfEntry" />
+            <el-table-column label="入职时间" prop="timeOfEntry" >
+              <!-- 针对入职时间 采用作用域插槽 + 过滤器 -> 进行处理 -->
+              <template slot-scope="{row}">
+                {{row.timeOfEntry|formatDate}}
+              </template>
+            </el-table-column>
             <el-table-column label="账户状态" prop="enableState" />
             <el-table-column label="操作" fixed="right" />
           </el-table>
