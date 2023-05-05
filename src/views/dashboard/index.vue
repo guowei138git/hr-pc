@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
+    <upload-excel></upload-excel>
     <!-- 通用工具栏 -->
     <page-tools :show-before="true">
       <span slot="before">我想你们</span>
