@@ -41,7 +41,8 @@
     <!-- footer插槽 来实现 底部的取消和确定按钮-->
     <el-row slot="footer" type="flex" justify="center">
       <el-col :span="6">
-        <el-button size="small">取消</el-button>
+        <el-button size="small"
+        @click="btnCancel">取消</el-button>
         <el-button type="primary" 
         size="small" @click="btnOK">确定</el-button>
       </el-col>
@@ -143,6 +144,23 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    // 点击取消时 - 触发
+    btnCancel(){
+      // 重置原来的数据
+      this.formData = {
+        username:'',
+        mobile:'',
+        formOfEmployment:'',
+        workNumber:'',
+        departmentName:'',
+        timeOfEntry:'',
+        correctionTime:''
+      }
+      // 重置校验结果
+      this.$refs.addEmployee.resetFields()
+      // 关闭弹层
+      this.$emit('update:showDialog', false)
     }
   }
 };
