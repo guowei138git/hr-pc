@@ -25,7 +25,8 @@
           v-loading="loading"
           :data="treeData" 
           :props="{label: 'name'}" 
-          :default-expand-all="true" />
+          :default-expand-all="true"
+          @node-click="selectNode" />
       </el-form-item>
       <el-form-item label="转正时间" prop="correctionTime">
         <el-date-picker v-model="formData.correctionTime" style="width:50%" placeholder="请选择转正时间" />
@@ -110,6 +111,11 @@ export default {
       this.treeData = transListToTreeData(depts, '')
       // 关闭进度条
       this.loading = false
+    },
+    // 点击部门时 - 触发
+    selectNode(node){
+      this.formData.departmentName = node.name
+      this.showTree = false
     }
   }
 };
