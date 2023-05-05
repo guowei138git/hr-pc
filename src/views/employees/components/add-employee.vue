@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="新增员工" :visible="showDialog">
     <!-- 表单 -->
-    <el-form :model="formData" :rules="rules" label-width="120px">
+    <el-form ref="addEmployee" :model="formData" :rules="rules" label-width="120px">
       <el-form-item label="姓名" prop="username">
         <el-input v-model="formData.username" style="width:50%" placeholder="请输入姓名" />
       </el-form-item>
@@ -42,7 +42,8 @@
     <el-row slot="footer" type="flex" justify="center">
       <el-col :span="6">
         <el-button size="small">取消</el-button>
-        <el-button type="primary" size="small">确定</el-button>
+        <el-button type="primary" 
+        size="small" @click="btnOK">确定</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -52,6 +53,7 @@
 import { getDepartments } from "@/api/departments"
 import { transListToTreeData } from '@/utils/index'
 import EmployeeEnum from '@/api/constant/employees'
+import { addEmployee } from '../../../api/employees';
 
 export default {
   props: {
@@ -126,6 +128,21 @@ export default {
     selectNode(node){
       this.formData.departmentName = node.name
       this.showTree = false
+    },
+    // 点击确定时 - 触发
+    async btnOK(){
+      try {
+        // 校验整个表单
+        await this.$refs.addEmployee.validate()
+        // 调用新增接口 - 新增员工
+        await addEmployee(this.formData)
+        // 告诉父组件 -> 更新数据
+        this.$parent.getEmployeeListFn()
+        // 告诉父组件 -> 关闭弹层
+        this.$parent.showDialog = false
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 };
