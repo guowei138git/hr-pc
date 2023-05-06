@@ -121,13 +121,54 @@ export default {
       }
     },
     // 导出 -> excel　
-    exportData(){
+    exportDataDemo(){
       console.log('exportData -> excel')
       import('@/vendor/Export2Excel').then(excel => {
         excel.export_json_to_excel({
           header:["姓名", '工资'],
           data:[]
         })
+      })
+    },
+    exportData(){
+      const headers = {
+        '手机号': 'mobile',
+        '姓名': 'username',
+        '入职日期': 'timeOfEntry',
+        '聘用形式': 'formOfEmployment',
+        '转正日期': 'correctionTime',
+        '工号': 'workNumber',
+        '部门': 'departmentName'
+      }
+      // 导出excel
+      import('@/vendor/Export2Excel').then(async excel => {
+        // excel是引入文件的导出对象
+        // 导出： ① header从哪里来？ ② data从哪里来？
+        const headerData = Object.keys(headers)
+        // 获取员工的接口 页码:page  每页条数:size
+        const { rows } = await getEmployeeList({page:1, size:this.page.total})
+        // data的数据是转化而来
+        const data = this.formatJson(headers, rows)
+        excel.export_json_to_excel({
+          header:headerData,
+          data:data
+        })
+      })
+    },
+    // 将表头数据和接口数据进行对应
+    // [[]]  - [{}]
+    formatJson(headers, rows){
+      // 目的：把接口返回的数据rows转化成表头形式的数据
+      return rows.map(item => {
+        // item是一个对象  {mobile:13871636236, username:'张三'}
+        // Object.keys是 ["手机号", "姓名", "入职日期"]
+        return Object.keys(headers).map(key => {
+          // 手机号 -> mobile
+          const headersValue = headers[key]
+          // mobile -> 13871636236
+          return item[headersValue]
+        })
+        // 当前循环完 -> ["13871636236", "张三", ......]
       })
     }
   }
