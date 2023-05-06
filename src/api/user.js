@@ -37,17 +37,6 @@ export function getUserDetailById(id){
   })
 }
 
-/**
- * 保存员工的基本信息
- * @param {Object} data 
- */
-export function saveUserDetailById(data){
-  return request({
-    url:`/sys/user/${data.id}`,
-    method:'post',
-    data:data
-  })
-}
 
 export function logout() {
   
