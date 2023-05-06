@@ -65,6 +65,7 @@ import {getEmployeeList, delEmployee} from '@/api/employees'
 // 引入员工的枚举
 import EmployeeEnum from '@/api/constant/employees'
 import AddEmployee from './components/add-employee'
+import { formatDate } from '@/filters'
 
 export default {
   data () {
@@ -165,6 +166,11 @@ export default {
         return Object.keys(headers).map(key => {
           // 手机号 -> mobile
           const headersValue = headers[key]
+          // 需要判断字段 - 处理导出时间格式
+          if (headersValue === 'timeOfEntry' || headersValue ==='correctionTime' ) {
+            // 格式化日期
+            return formatDate(item[headersValue])
+          }
           // mobile -> 13871636236
           return item[headersValue]
         })
