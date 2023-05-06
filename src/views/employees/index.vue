@@ -4,9 +4,12 @@
         <!-- 放置通用工具栏 -->
         <page-tools :show-before="true">
           <span slot="before">共{{page.total}}条记录</span>
+          <!-- 右侧显示按钮 excel导入 excel导出 新增员工 -->
           <template slot="after">
-            <el-button size="small" type="warning">导入</el-button>
-            <el-button size="small" type="danger">导出</el-button>
+            <el-button size="small" type="success" 
+            @click="$router.push('/import?type=user')">excel导入</el-button>
+            <el-button size="small" type="danger"
+            @click="exportData">excel导出</el-button>
             <el-button size="small" type="primary" 
             @click="showDialog=true">新增员工</el-button>
           </template>
@@ -116,6 +119,16 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    // 导出 -> excel　
+    exportData(){
+      console.log('exportData -> excel')
+      import('@/vendor/Export2Excel').then(excel => {
+        excel.export_json_to_excel({
+          header:["姓名", '工资'],
+          data:[]
+        })
+      })
     }
   }
 }
