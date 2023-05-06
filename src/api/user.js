@@ -28,11 +28,24 @@ export function getUserInfo(){
 }
 
 /**
- * 根据用户id获取用户详情接口封装
+ * 获取某个用户的基本信息
+ * @param {String} id 
  */
 export function getUserDetailById(id){
   return request({
     url: `/sys/user/${id}`
+  })
+}
+
+/**
+ * 保存员工的基本信息
+ * @param {Object} data 
+ */
+export function saveUserDetailById(data){
+  return request({
+    url:`/sys/user/${data.id}`,
+    method:'post',
+    data:data
   })
 }
 
