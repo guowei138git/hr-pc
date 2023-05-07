@@ -40,6 +40,8 @@
                 <el-button type="text" size="small"
                   @click="$router.push(`/employees/detail/${row.id}`)">查看</el-button>
                 <el-button type="text" size="small"
+                  @click="fn">角色</el-button>
+                <el-button type="text" size="small"
                   @click="deleteEmployeeFn(row.id)">删除</el-button>
               </template>
             </el-table-column>
