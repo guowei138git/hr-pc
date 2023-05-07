@@ -40,7 +40,7 @@
                 <el-button type="text" size="small"
                   @click="$router.push(`/employees/detail/${row.id}`)">查看</el-button>
                 <el-button type="text" size="small"
-                  @click="fn">角色</el-button>
+                  @click="showRoleDialogFn">角色</el-button>
                 <el-button type="text" size="small"
                   @click="deleteEmployeeFn(row.id)">删除</el-button>
               </template>
@@ -60,6 +60,9 @@
       <!-- 放组件弹层 -->
       <!-- sync修饰符：是子组件 去改变父组件的数据的 一个语法糖 -->
       <AddEmployee :show-dialog.sync="showDialog" />
+
+      <!-- 放置分配角色组件 -->
+      <AssignRole :showRoleDialog.sync="showRoleDialog" />
   </div>
 </template>
 
@@ -69,6 +72,7 @@ import {getEmployeeList, delEmployee} from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
 import AddEmployee from './components/add-employee'
 import { formatDate } from '@/filters'
+import AssignRole from './components/assign-role'
 
 export default {
   data () {
@@ -82,11 +86,14 @@ export default {
         total:0 // 总数
       },
       // 默认是关闭的弹层
-      showDialog:false
+      showDialog:false,
+      // 显示分配角色弹层
+      showRoleDialog: false
     }
   },
   components: {
-    AddEmployee
+    AddEmployee,
+    AssignRole
   },
   created () {
     this.getEmployeeListFn()
@@ -184,6 +191,10 @@ export default {
         })
         // 当前循环完 -> ["13871636236", "张三", ......]
       })
+    },
+    // 显示角色弹层
+    showRoleDialogFn(){
+      this.showRoleDialog = true
     }
   }
 }
