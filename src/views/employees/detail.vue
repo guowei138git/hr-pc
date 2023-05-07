@@ -9,8 +9,9 @@
             style="margin-left:120px; margin-top:30px"
             ref="userForm"
             :model="userInfo"
+            :rules="rules"
           >
-            <el-form-item label="姓名" prop="username">
+            <el-form-item label="用户名" prop="username">
               <el-input style="width:300px" v-model="userInfo.username" />
             </el-form-item>
             <el-form-item label="原密码" prop="password">
@@ -47,13 +48,24 @@ export default {
   },
   data() {
     return {
+      // params传参 - 动态路由传参
+      // path:'detail/:id'
       userId: this.$route.params.id,
       userInfo: {
         username: "",
         password: "",
-        password2: ""
+        password2: "" // 为什么叫password2 因为后端读取出来的password是密文
       },
-      rules: {}
+      rules: {
+        username: [
+          { required: true, message: "用户名不能为空", trigger: "blur" },
+          { min: 2, max: 4, message: "用户名长度2-4位", trigger: "blur" }
+        ],
+        password2: [
+          { required: true, message: "密码不能为空", trigger: "blur" },
+          { min: 6, max: 9, message: "密码长度6-9位", trigger: "blur" }
+        ]
+      }
     };
   },
   created() {
@@ -63,15 +75,20 @@ export default {
     async getUserDetailByIdFn() {
       this.userInfo = await getUserDetailById(this.userId);
     },
-    async saveUser() {
-      try {
-        // 将新密码的值替换原密码的值
-        const data = { ...this.userInfo, password: this.userInfo.password2 };
-        await saveUserDetailById(data);
-        this.$message.success("保存成功");
-      } catch (error) {
-        console.log(error);
-      }
+    saveUser() {
+      // 调用保存方法之前 需先校验 - 校验表单中输入的 value
+      this.$refs.userForm.validate().then(async () => {
+        try {
+          // 将新密码的值替换原密码的值 password = password2
+          // ...userInfo：属于浅拷贝  在这个对象里已有password 所以用后面的password来覆盖userInfo里面的password
+          // 类似于：{a:1, a:2} ---> {a:2}
+          const data = { ...this.userInfo, password: this.userInfo.password2 };
+          await saveUserDetailById(data);
+          this.$message.success("保存成功");
+        } catch (error) {
+          console.log(error);
+        }
+      });
     }
   }
 };

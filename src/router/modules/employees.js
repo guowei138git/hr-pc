@@ -21,7 +21,7 @@ export default {
             }
         },
         {   
-            // query传参 - 动态路由传参
+            // params传参 - 动态路由传参
             path:'detail/:id',
             component: () => import('@/views/employees/detail'),
             hidden: true, // 不在左侧菜单显示

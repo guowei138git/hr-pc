@@ -142,7 +142,7 @@ export default {
         '工号': 'workNumber',
         '部门': 'departmentName'
       }
-      // 导出excel
+      // 导出excel按需加载
       import('@/vendor/Export2Excel').then(async excel => {
         // excel是引入文件的导出对象
         // 导出： ① header从哪里来？ ② data从哪里来？
