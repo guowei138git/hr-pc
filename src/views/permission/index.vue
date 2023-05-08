@@ -20,6 +20,24 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 新增编辑弹层 -->
+      <el-dialog :visible="showDialog" title="新增编辑"> 
+        <!-- 表单 -->
+        <el-form>
+          <el-form-item label="名称">
+            <el-input></el-input>
+          </el-form-item>
+             <el-form-item label="标识">
+            <el-input></el-input>
+          </el-form-item>
+             <el-form-item label="描述">
+            <el-input></el-input>
+          </el-form-item>
+             <el-form-item label="开启">
+               <el-switch></el-switch>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
   </div>
 </template>
 
@@ -30,7 +48,8 @@ import { transListToTreeData } from '@/utils'
 export default {
   data () {
     return {
-      list:[]
+      list:[],
+      showDialog: true
     }
   },
   created () {
