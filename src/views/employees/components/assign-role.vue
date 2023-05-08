@@ -1,15 +1,14 @@
 <template>
   <el-dialog title="分配角色" :visible="showRoleDialog">
     <!-- el-checkbox-group选中的是 当前用户所拥有的角色
-    需要绑定 - 当前用户的角色数据-->
-    <el-checbox-group>
-      <!-- 选项数据 -->
-      <el-checkbox v-for="item in list"
-      :key="item.id"
-      :label="item.id">
-        {{ item.name }}
-      </el-checkbox>
-    </el-checbox-group>
+    需要绑定 - 当前用户的角色数据 
+    多选框组 v-model双向绑定 -->
+    <el-checkbox-group v-model="roleIds">
+      <!-- 要循环的选项数据 -->
+      <el-checkbox v-for="item in list" 
+      :key="item.id" 
+      :label="item.id">{{ item.name }}</el-checkbox>
+    </el-checkbox-group>
     <!-- 定义footer的插槽 -->
     <el-row>
       <el-col>
@@ -22,29 +21,46 @@
 
 <script>
 import { getRoleList } from "@/api/setting";
+import { getUserDetailById } from "@/api/user";
 
 export default {
   props: {
     showRoleDialog: {
       type: Boolean,
       default: false
+    },
+    userId: {
+      type: String,
+      default: null
     }
   },
   data() {
     return {
       // 角色列表
-      list: []
+      list: [],
+      // 当前用户的角色
+      roleIds: []
     };
   },
   created() {
     this.getRoleListFn();
+    // this.getUserDetailByIdFn(this.userId);
   },
   methods: {
     // 获取所有角色 - 列表
     async getRoleListFn() {
       const { rows } = await getRoleList();
-      console.log('roleList:', rows)
-      this.list = rows
+      console.log("roleList:", rows);
+      this.list = rows;
+    },
+    // 这个方法是什么时候调用？props传值是异步的 所以这里不能用this.userId
+    // 这个方法是给父组件调用的
+    async getUserDetailByIdFn(id) {
+      // 获取当前用户的 角色 
+      const { roleIds } = await getUserDetailById(id);
+      console.log('roleIds:', roleIds)
+      // 赋值 - 本用户的角色
+      this.roleIds = roleIds;
     }
   }
 };

@@ -40,7 +40,7 @@
                 <el-button type="text" size="small"
                   @click="$router.push(`/employees/detail/${row.id}`)">查看</el-button>
                 <el-button type="text" size="small"
-                  @click="showRoleDialogFn">角色</el-button>
+                  @click="showRoleDialogFn(row.id)">角色</el-button>
                 <el-button type="text" size="small"
                   @click="deleteEmployeeFn(row.id)">删除</el-button>
               </template>
@@ -62,7 +62,8 @@
       <AddEmployee :show-dialog.sync="showDialog" />
 
       <!-- 放置分配角色组件 -->
-      <AssignRole :showRoleDialog.sync="showRoleDialog" />
+      <AssignRole ref="assignRole"  :showRoleDialog.sync="showRoleDialog"
+        :userId="userId" />
   </div>
 </template>
 
@@ -88,7 +89,8 @@ export default {
       // 默认是关闭的弹层
       showDialog:false,
       // 显示分配角色弹层
-      showRoleDialog: false
+      showRoleDialog: false,
+      userId:''
     }
   },
   components: {
@@ -193,8 +195,15 @@ export default {
       })
     },
     // 显示角色弹层
-    showRoleDialogFn(){
+    async showRoleDialogFn(id){
+      // props赋值  这里是：先赋值给data中的userId 然后调用子组件时传递过去 -> :userId="userId"
+      // props赋值渲染是异步的  所以先加载数据 然后再显示弹层
+      this.userId = id
+      // 加载数据
+      await this.$refs.assignRole.getUserDetailByIdFn(id) // 调用子组件的方法 异步方法
+      // 显示弹层
       this.showRoleDialog = true
+
     }
   }
 }
