@@ -7,11 +7,13 @@
       <!-- 要循环的选项数据 -->
       <el-checkbox v-for="item in list" 
       :key="item.id" 
-      :label="item.id">{{ item.name }}</el-checkbox>
+      :label="item.id">
+        {{ item.name }}
+      </el-checkbox>
     </el-checkbox-group>
     <!-- 定义footer的插槽 -->
-    <el-row>
-      <el-col>
+    <el-row slot="footer" type="flex" justify="center">
+      <el-col :span="6">
         <el-button size="small" type="primary">确定</el-button>
         <el-button size="small">取消</el-button>
       </el-col>
@@ -49,7 +51,9 @@ export default {
   methods: {
     // 获取所有角色 - 列表
     async getRoleListFn() {
-      const { rows } = await getRoleList();
+      // 默认获取20条数据  角色梳理不会太多   
+      const data = {page:1, pagesize:20}
+      const { rows } = await getRoleList( data );
       console.log("roleList:", rows);
       this.list = rows;
     },
