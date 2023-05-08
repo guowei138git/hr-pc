@@ -10,6 +10,7 @@ import Layout from '@/layout'
 import employeesRouter from './modules/employees'
 import departmentsRouter from './modules/departments'
 import settingRouter from './modules/setting'
+import permissionRouter from './modules/permission'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -78,7 +79,9 @@ export const constantRoutes = [
 export const asyncRouters = [
   departmentsRouter,
   employeesRouter,
-  settingRouter
+  permissionRouter,
+  settingRouter,
+  
 ]
 
 
