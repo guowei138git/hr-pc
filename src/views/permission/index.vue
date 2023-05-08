@@ -24,7 +24,24 @@
 </template>
 
 <script>
+import { getPermissionList } from '@/api/permission'
+
+
 export default {
+  data () {
+    return {
+      list:[]
+    }
+  },
+  created () {
+    this.getPermissionListFn()
+  },
+  methods:{
+    async getPermissionListFn(){
+      const result = await getPermissionList()
+      console.log('getPermissionListFn:', result)
+    }
+  }
 
 }
 </script>
