@@ -106,4 +106,16 @@ export function getPersonalDetail(id) {
       data
     })
   }
+
+  /**
+   * 给员工分配角色
+   * @param {Object} data 
+   */
+  export function asssignRoles(data){
+    return request({
+      url:'/sys/user/assignRoles',
+      method:'put',
+      data
+    })
+  }
   
