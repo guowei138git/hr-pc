@@ -16,7 +16,8 @@
       <el-col :span="6">
         <el-button size="small" type="primary"
         @click="btnOK">确定</el-button>
-        <el-button size="small">取消</el-button>
+        <el-button size="small"
+        @click="btnCancel">取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -80,8 +81,11 @@ export default {
         this.$message.success('操作成功')
         console.log('btnOK---end')
     },
+    // 点击 取消按钮 触发
     btnCancel(){
-        this.showRoleDialog = false
+        // 清空原来的数组
+        this.roleIds = []
+        this.$emit('update:showRoleDialog', false)
     }
   }
 };
