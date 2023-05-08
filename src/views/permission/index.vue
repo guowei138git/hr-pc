@@ -8,10 +8,10 @@
         </template>
       </page-tools>
       <!-- 表格 -->
-      <el-table>
-        <el-table-column align="center" label="名称" />
-        <el-table-column align="center" label="标识" />
-        <el-table-column align="center" label="描述" />
+      <el-table :data="list" border="" row-key="id">
+        <el-table-column align="center" label="名称" prop="name" />
+        <el-table-column align="center" label="标识" prop="code" />
+        <el-table-column align="center" label="描述" prop="description" />
         <el-table-column align="center" label="操作" >
           <template>
             <el-button type="text">添加</el-button>
@@ -25,7 +25,7 @@
 
 <script>
 import { getPermissionList } from '@/api/permission'
-
+import { transListToTreeData } from '@/utils'
 
 export default {
   data () {
@@ -40,6 +40,8 @@ export default {
     async getPermissionListFn(){
       const result = await getPermissionList()
       console.log('getPermissionListFn:', result)
+      this.list = transListToTreeData(result, '0')
+      console.log(this.list)
     }
   }
 

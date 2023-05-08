@@ -117,11 +117,9 @@ export function param2Obj(url) {
 }
 
 /**
- * 将列表型的数据转化成树形数据 => 递归算法
- * 递归 => 自身调用自身
- * 递归条件 => 一定添加不能一样 否则就会死循环
- * @param rootValue=''
- * @returns arr
+ * 将列表型的数据转化成树形数据
+ * @param {Array} list 
+ * @param {String} rootValue 
  */
 export function transListToTreeData(list, rootValue){
    // 开启断点调试 -> debugger
